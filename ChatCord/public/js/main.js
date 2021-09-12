@@ -1,9 +1,7 @@
 const chatForm = document.getElementById('chat-form');
-const { v4: uuidv4 } = require("uuid");
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
-const db = require('./db');
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
@@ -13,7 +11,6 @@ const socket = io();
 
 // Join chatroom
 socket.emit('joinRoom', { username, room });
-db.query(`INSERT INTO Chat(ID, Name, Room)values(${uuid4()}, ${username}, ${room})`)
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
