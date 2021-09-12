@@ -1,6 +1,6 @@
 const root = document.getElementById('root');
 const usernameInput = document.getElementById('username');
-const roomInput = document.getElementById('room')
+const roomInput = document.getElementById('room');
 const button = document.getElementById('join_leave');
 const shareScreen = document.getElementById('share_screen');
 const toggleChat = document.getElementById('toggle_chat');
@@ -10,7 +10,6 @@ const chatScroll = document.getElementById('chat-scroll');
 const chatContent = document.getElementById('chat-content');
 const chatInput = document.getElementById('chat-input');
 let connected = false;
-let room;
 let chat;
 let conv;
 let screenTrack;
@@ -58,19 +57,19 @@ function connectButtonHandler(event) {
     }
 };
 
-function connect(username) {
+function connect(username, room) {
     let promise = new Promise((resolve, reject) => {
         // get a token from the back end
         let data;
         fetch('/login', {
             method: 'POST',
-            body: JSON.stringify({'username': username,'room': room})
+            body: JSON.stringify({'username': username,'room': roomInput.value})
         }).then(res => res.json()).then(_data => {
             // join video call
             data = _data;
             return Twilio.Video.connect(data.token);
-        }).then(room => {
-            room = room;
+        }).then(_room => {
+            room = _room ;
             room.participants.forEach(participantConnected);
             room.on('participantConnected', participantConnected);
             room.on('participantDisconnected', participantDisconnected);
