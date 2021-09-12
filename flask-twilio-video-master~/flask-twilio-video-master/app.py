@@ -33,6 +33,7 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
+    print('1')
     username = request.get_json(force=True).get('username')
     room = request.get_json(force=True).get('room')
     if not username :
