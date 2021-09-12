@@ -16,14 +16,14 @@ twilio_client = Client(twilio_api_key_sid, twilio_api_key_secret,
 app = Flask(__name__)
 
 
-def get_chatroom(room):
+def get_chatroom(name):
     for conversation in twilio_client.conversations.conversations.stream():
-        if conversation.friendly_name == room:
+        if conversation.friendly_name == name:
             return conversation
 
     # a conversation with the given name does not exist ==> create a new one
     return twilio_client.conversations.conversations.create(
-        friendly_name=room)
+        friendly_name=name)
 
 
 @app.route('/')
@@ -45,6 +45,7 @@ def login():
     conversation = get_chatroom(room)
     try:
         conversation.participants.create(identity=username)
+        print(conversation.participants.create(identity=username))
     except TwilioRestException as exc:
         # do not error if the user is already in the conversation
         if exc.status != 409:

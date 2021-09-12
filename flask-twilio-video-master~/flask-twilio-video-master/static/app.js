@@ -63,7 +63,7 @@ function connect(username, room) {
         let data;
         fetch('/login', {
             method: 'POST',
-            body: JSON.stringify({'room': room})
+            body: JSON.stringify({'username': username,'room': roomInput.value})
         }).then(res => res.json()).then(_data => {
             // join video call
             data = _data;
