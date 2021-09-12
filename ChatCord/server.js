@@ -1,8 +1,9 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
+const {Pool, Client} = require('pg');
 const socketio = require('socket.io');
-const { v4: uuidv4 } = require("uuid");
+const uuid = require("uuid");
 const formatMessage = require('./utils/messages');
 const {
   userJoin,
@@ -10,6 +11,12 @@ const {
   userLeave,
   getRoomUsers
 } = require('./utils/users');
+
+const pgp = require('pg-promise')()
+const connectionString =
+    "postgres:Mac126218@127.0.0.1:5432/WebChat"
+
+const db = pgp(connectionString)
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +31,9 @@ const botName = 'Bot';
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-
+    db.query(`INSERT INTO Chat(ID, Name, Room) VALUES(${uuid.v4()}, ${username}, ${room})`, (err,res)=>{
+      console.log(err, res)
+  })
     socket.join(user.room);
 
     // Welcome current user
