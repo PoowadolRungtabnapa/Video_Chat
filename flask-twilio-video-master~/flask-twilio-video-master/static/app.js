@@ -63,12 +63,13 @@ function connect(username, room) {
         let data;
         fetch('/login', {
             method: 'POST',
-            body: JSON.stringify({'username': username,'room': room})
+            body: JSON.stringify({'room': room})
         }).then(res => res.json()).then(_data => {
             // join video call
             data = _data;
             return Twilio.Video.connect(data.token);
-        }).then(room => {
+        }).then(_room => {
+            room = _room ;
             room.participants.forEach(participantConnected);
             room.on('participantConnected', participantConnected);
             room.on('participantDisconnected', participantDisconnected);

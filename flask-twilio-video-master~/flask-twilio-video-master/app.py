@@ -18,12 +18,12 @@ app = Flask(__name__)
 
 def get_chatroom(room):
     for conversation in twilio_client.conversations.conversations.stream():
-        if conversation.friendly_name == name:
+        if conversation.friendly_name == room:
             return conversation
 
     # a conversation with the given name does not exist ==> create a new one
     return twilio_client.conversations.conversations.create(
-        friendly_name=name)
+        friendly_name=room)
 
 
 @app.route('/')
@@ -34,13 +34,14 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     print('1')
+    print(request.get_json(force=True))
+    print(request.get_json(force=True).get('username'))
+    print(request.get_json(force=True).get('room'))
     username = request.get_json(force=True).get('username')
+    
     room = request.get_json(force=True).get('room')
-    if not username :
+    if not username or not room :
         abort(401)
-    elif not room :
-        abort(401)
-
     conversation = get_chatroom(room)
     try:
         conversation.participants.create(identity=username)
