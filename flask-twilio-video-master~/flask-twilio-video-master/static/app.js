@@ -10,7 +10,6 @@ const chatScroll = document.getElementById('chat-scroll');
 const chatContent = document.getElementById('chat-content');
 const chatInput = document.getElementById('chat-input');
 let connected = false;
-let room;
 let chat;
 let conv;
 let screenTrack;
@@ -70,7 +69,6 @@ function connect(username) {
             data = _data;
             return Twilio.Video.connect(data.token);
         }).then(room => {
-            room = room;
             room.participants.forEach(participantConnected);
             room.on('participantConnected', participantConnected);
             room.on('participantDisconnected', participantDisconnected);
