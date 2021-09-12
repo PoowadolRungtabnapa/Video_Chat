@@ -14,7 +14,7 @@ const {
 
 const pgp = require('pg-promise')()
 const connectionString =
-    "postgres:Mac126218@127.0.0.1:5432/WebChat"
+    "postgresql://postgres:1234@127.0.0.1:5432/WebChat"
 
 const db = pgp(connectionString)
 
