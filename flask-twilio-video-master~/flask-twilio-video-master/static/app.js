@@ -1,6 +1,6 @@
 const root = document.getElementById('root');
 const usernameInput = document.getElementById('username');
-const roomInput = document.getElementById('room')
+const roomInput = document.getElementById('room');
 const button = document.getElementById('join_leave');
 const shareScreen = document.getElementById('share_screen');
 const toggleChat = document.getElementById('toggle_chat');
